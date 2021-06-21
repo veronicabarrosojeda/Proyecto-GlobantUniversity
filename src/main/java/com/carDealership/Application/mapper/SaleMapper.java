@@ -5,7 +5,7 @@ import com.carDealership.Application.entity.Sale;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentmodel = 'spring')
+@Mapper(componentModel = "spring")
 public interface SaleMapper {
     SaleMapper INSTANCE = Mappers.getMapper( SaleMapper.class );
 
