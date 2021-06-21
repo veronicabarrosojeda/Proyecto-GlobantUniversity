@@ -1,7 +1,10 @@
 package com.carDealership.Application.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 public class User {
     @Id

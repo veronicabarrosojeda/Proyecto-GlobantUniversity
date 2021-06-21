@@ -1,9 +1,12 @@
 package com.carDealership.Application.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 public class Sale {
     @Id
