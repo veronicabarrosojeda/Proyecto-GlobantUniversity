@@ -1,6 +1,6 @@
 package com.carDealership.Application.dto;
 
-import com.carDealership.Application.entity.UserType;
+import com.carDealership.Application.entity.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDTO {
     Long id;
-    UserType userType;
+    UserRoleEnum role;
     String name;
     int age;
 }
