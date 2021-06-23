@@ -7,9 +7,8 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface SaleMapper {
-    SaleMapper INSTANCE = Mappers.getMapper( SaleMapper.class );
+    SaleMapper INSTANCE = Mappers.getMapper(SaleMapper.class);
 
-    Sale userDtoToUser(SaleDTO saleDTO);
-    SaleDTO userToUserDto(Sale sale);
-
+    Sale saleDtoToSale(SaleDTO saleDTO);
+    SaleDTO saleToSaleDto(Sale sale);
 }
