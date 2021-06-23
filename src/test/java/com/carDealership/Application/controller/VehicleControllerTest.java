@@ -1,7 +1,9 @@
 package com.carDealership.Application.controller;
 
-import com.carDealership.Application.entity.Vehicle;
-import com.carDealership.Application.repository.VehicleRepository;
+import com.carDealership.Application.dto.VehicleDTO;
+import com.carDealership.Application.service.VehicleService;
+import org.hibernate.service.spi.ServiceException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,24 +23,24 @@ public class VehicleControllerTest {
     private VehicleController vehicleController;
 
     @Mock
-    private VehicleRepository vehicleRepository;
+    private VehicleService vehicleService;
 
     @Test
     public void shouldReturnValidResponseTest(){
         //Arrange
-        Mockito.when(vehicleRepository.findAll()).thenReturn(Collections.singletonList( new Vehicle() ));
+        Mockito.when(vehicleService.allVehicles()).thenReturn(Collections.singletonList(new VehicleDTO()));
         //Action
-        List <Vehicle> expectedResult = vehicleController.all();
+        List<VehicleDTO> expectedResult = vehicleController.allVehicles();
         //Assert
         assertNotNull(expectedResult);
     }
-
-    /*public void shouldThrowsExceptionWhenServiceDownTest(){
+    @Test
+    public void shouldThrowsExceptionWhenServiceDownTest(){
         //Arrange
-        when(continentService.create(any())).thenThrow(new ServiceException("Service Down"));
+        Mockito.when(vehicleService.allVehicles()).thenThrow(new ServiceException("Service Down"));
         //assert
         Assertions.assertThrows(ServiceException.class, () ->
-                continentController.create(ContinentDTO.builder().build())
+                vehicleController.allVehicles()
         );
-    }*/
+    }
 }
