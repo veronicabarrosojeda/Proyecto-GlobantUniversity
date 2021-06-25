@@ -13,10 +13,8 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    private Date saleDate;
-    //  private User seller;
-    //  private User Customer;
-    // private List <Vehicle> soldVehicle;
-
-
+    /*private Date saleDate;
+    private User seller;
+    private User Customer;
+    private List <Vehicle> soldVehicle;*/
 }

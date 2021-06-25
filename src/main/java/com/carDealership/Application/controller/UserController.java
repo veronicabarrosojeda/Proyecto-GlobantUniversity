@@ -3,6 +3,8 @@ package com.carDealership.Application.controller;
 import com.carDealership.Application.dto.UserDTO;
 import com.carDealership.Application.entity.UserRoleEnum;
 import com.carDealership.Application.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,28 +21,33 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public List<UserDTO> allUsers() {
-        return userService.allUsers();
+    ResponseEntity <List<UserDTO>> allUsers() {
+        return new ResponseEntity<> (userService.allUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public UserDTO oneUser(@PathVariable Long id) {
-        return userService.findById(id);
+    ResponseEntity<UserDTO> oneUser(@PathVariable Long id) {
+        return new ResponseEntity<> (userService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("roles/{role}")
-    public List<UserDTO> getByRole(UserRoleEnum role) {
-        return userService.findByRole(role);
+    ResponseEntity <List<UserDTO>> getByRole(UserRoleEnum role) {
+        return new ResponseEntity<> (userService.findByRole(role), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public UserDTO newUser(@RequestBody UserDTO newUser) {
-        return this.userService.newUser(newUser);
+    ResponseEntity <UserDTO> newUser(@RequestBody UserDTO newUser) {
+        return new ResponseEntity<> (this.userService.newUser(newUser), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         boolean ok = this.userService.deleteUser(id);
+        if (ok) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
