@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.carDealership.Application.mapper.VehicleMapper.INSTANCE;
 
@@ -30,5 +32,15 @@ public class VehicleServiceImpl implements VehicleService {
             return INSTANCE.allVehiclesToDto(allVehicles);
         }
         return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public VehicleDTO addVehicle(VehicleDTO vehicleDTO) {
+        if(vehicleDTO!=null){
+            Vehicle vehicle = INSTANCE.vehicleDtoToVehicle(vehicleDTO);
+            vehicleRepository.save(vehicle);
+        }
+
+        return new VehicleDTO();
     }
 }

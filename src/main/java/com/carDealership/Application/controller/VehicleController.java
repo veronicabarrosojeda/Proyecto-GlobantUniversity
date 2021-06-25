@@ -6,9 +6,9 @@ import com.carDealership.Application.entity.Vehicle;
 import com.carDealership.Application.repository.VehicleRepository;
 import com.carDealership.Application.service.UserService;
 import com.carDealership.Application.service.VehicleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +22,12 @@ public class VehicleController {
 
         this.vehicleService = vehicleService;
     }
+
+    @PostMapping(path = "vehicle")
+    public ResponseEntity<VehicleDTO> addVehicle(@RequestBody VehicleDTO vehicleDTO) {
+        return ResponseEntity.ok(vehicleService.addVehicle(vehicleDTO));
+    }
+
 
     @GetMapping("/")
     public List<VehicleDTO> allVehicles() {
