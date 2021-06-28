@@ -13,6 +13,6 @@ public class VehicleDTO {
     Long id;
     String maker;
     String model;
-    boolean stock;
-    float price;
+    Boolean stock;
+    Float price;
 }

@@ -8,5 +8,12 @@ import java.util.List;
 
 public interface VehicleService {
     VehicleDTO addVehicle(VehicleDTO vehicleDTO);
+
+    VehicleDTO updateVehicle(VehicleDTO vehicleDTO);
+
+    boolean deleteVehicle(Long idVehicle);
+
+    List<VehicleDTO> getStockByModel(VehicleDTO vehicleDTO);
+
     List<VehicleDTO> allVehicles();
 }

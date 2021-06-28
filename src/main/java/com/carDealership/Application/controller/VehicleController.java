@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping("/vehicles")
 public class VehicleController {
@@ -25,9 +27,13 @@ public class VehicleController {
 
     @PostMapping(path = "vehicle")
     public ResponseEntity<VehicleDTO> addVehicle(@RequestBody VehicleDTO vehicleDTO) {
-        return ResponseEntity.ok(vehicleService.addVehicle(vehicleDTO));
+        return ok(vehicleService.addVehicle(vehicleDTO));
     }
 
+    @GetMapping(path = "stockvehicles")
+    public ResponseEntity<List<VehicleDTO>> getStockVehiclesByModel(@RequestBody VehicleDTO vehicleDTO){
+        return ResponseEntity.ok(vehicleService.getStockByModel(vehicleDTO));
+    }
 
     @GetMapping("/")
     public List<VehicleDTO> allVehicles() {
