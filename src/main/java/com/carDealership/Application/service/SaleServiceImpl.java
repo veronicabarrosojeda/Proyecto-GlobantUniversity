@@ -2,8 +2,11 @@ package com.carDealership.Application.service;
 
 import com.carDealership.Application.dto.SaleDTO;
 import com.carDealership.Application.entity.Sale;
+import com.carDealership.Application.entity.User;
+import com.carDealership.Application.entity.UserRoleEnum;
 import com.carDealership.Application.exception.NotFoundException;
 import com.carDealership.Application.repository.SaleRepository;
+import com.carDealership.Application.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -17,10 +20,12 @@ import static com.carDealership.Application.mapper.SaleMapper.INSTANCE;
 public class SaleServiceImpl implements SaleService {
 
     SaleRepository saleRepository;
+    UserRepository userRepository;
 
-    public SaleServiceImpl(SaleRepository saleRepository) {
+    public SaleServiceImpl(SaleRepository saleRepository,UserRepository userRepository) {
 
         this.saleRepository = saleRepository;
+        this.userRepository = userRepository;
     }
 
     public List<SaleDTO> allSales() {
@@ -40,9 +45,18 @@ public class SaleServiceImpl implements SaleService {
     }
 
     public SaleDTO newSale(SaleDTO saleDTO) {
-        Sale sale = INSTANCE.saleDtoToSale(saleDTO);
-        Sale savedSale = saleRepository.save(sale);
-        return INSTANCE.saleToSaleDto(savedSale);
+        //preguntar y hacer findbyid de los usuarios y sus roles
+        Optional<User> optionalSeller =  userRepository.findByIdAndRole(saleDTO.getSellerId(), UserRoleEnum.SELLER);
+        //Optional<Vehicle> optionalVehicle =
+        //LO MISMO PARA EL CLIENTE Y EL VEHICULO
+        if(optionalSeller.isPresent()) { //lo mismo para v
+            User existingSeller = optionalSeller.get();
+            Sale sale = INSTANCE.saleDtoToSale(saleDTO);
+            sale.setSeller(existingSeller); //settear vehicle y customer
+            Sale savedSale = saleRepository.save(sale);
+            return INSTANCE.saleToSaleDto(savedSale);
+        }
+
     }
 
     public SaleDTO updateSale(SaleDTO saleDTO) throws NotFoundException {

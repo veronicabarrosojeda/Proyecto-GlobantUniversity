@@ -3,6 +3,7 @@ package com.carDealership.Application.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,4 +17,8 @@ public class User {
     private String name;
     private int age;
 
+    @OneToMany(mappedBy = "seller")
+    List<Sale> sales;
+    @OneToMany(mappedBy = "customer")
+    List<Sale> purchases;
 }
