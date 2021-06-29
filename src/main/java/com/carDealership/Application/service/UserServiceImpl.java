@@ -8,9 +8,7 @@ import com.carDealership.Application.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.carDealership.Application.mapper.UserMapper.*;
 
@@ -29,7 +27,7 @@ public class UserServiceImpl implements UserService {
         if (!CollectionUtils.isEmpty(allUsers)) {
             return INSTANCE.allUsersToDto(allUsers);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public UserDTO findById(Long id) {
@@ -45,13 +43,24 @@ public class UserServiceImpl implements UserService {
         if (!CollectionUtils.isEmpty(getByRole)) {
             return INSTANCE.userByRoleToDto(getByRole);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     public UserDTO newUser(UserDTO userDTO) {
         User user = INSTANCE.userDtoToUser(userDTO);
         User savedUser = userRepository.save(user);
         return INSTANCE.userToUserDto(savedUser);
+    }
+
+    //@Override
+    public UserDTO updateUser(UserDTO userDTO) {
+        Optional<User> userToUpdate = userRepository.findById(userDTO.getId());
+        if (userToUpdate.isPresent()) {
+            User updateUser = INSTANCE.userDtoToUser(userDTO);
+            User updatedUser = userRepository.save(updateUser);
+            return INSTANCE.userToUserDto(updatedUser);
+        }
+        throw new NotFoundException(userDTO.getId());
     }
 
     public boolean deleteUser(Long id) {

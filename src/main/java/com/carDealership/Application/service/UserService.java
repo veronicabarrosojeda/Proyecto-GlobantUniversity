@@ -11,6 +11,7 @@ public interface UserService{
     UserDTO findById(Long id);
     List<UserDTO> findByRole (UserRoleEnum role);
     UserDTO newUser(UserDTO userDTO);
+    UserDTO updateUser(UserDTO userDTO);
     boolean deleteUser(Long id);
 
 }

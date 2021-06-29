@@ -40,6 +40,11 @@ public class UserController {
         return new ResponseEntity<> (this.userService.newUser(newUser), HttpStatus.CREATED);
     }
 
+    @PatchMapping("/update/{id}")
+    ResponseEntity <UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+        return new ResponseEntity<> (this.userService.updateUser(userDTO), HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         boolean ok = this.userService.deleteUser(id);
