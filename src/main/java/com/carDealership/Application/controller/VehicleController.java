@@ -2,11 +2,13 @@ package com.carDealership.Application.controller;
 
 import com.carDealership.Application.dto.VehicleDTO;
 import com.carDealership.Application.service.VehicleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/vehicles")
@@ -17,6 +19,16 @@ public class VehicleController {
     VehicleController(VehicleService vehicleService) {
 
         this.vehicleService = vehicleService;
+    }
+
+    @PostMapping(path = "vehicle")
+    public ResponseEntity<VehicleDTO> addVehicle(@RequestBody VehicleDTO vehicleDTO) {
+        return ok(vehicleService.addVehicle(vehicleDTO));
+    }
+
+    @GetMapping(path = "stockvehicles")
+    public ResponseEntity<List<VehicleDTO>> getStockVehiclesByModel(@RequestBody VehicleDTO vehicleDTO){
+        return ResponseEntity.ok(vehicleService.getStockByModel(vehicleDTO));
     }
 
     @GetMapping("/")

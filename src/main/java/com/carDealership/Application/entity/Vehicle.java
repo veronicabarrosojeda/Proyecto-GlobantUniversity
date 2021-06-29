@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "VEHICLE")
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,8 +14,8 @@ public class Vehicle {
     private Long id;
     private String maker;
     private String model;
-    private boolean stock;
-    private float price;
+    private Boolean stock;
+    private Float price;
     private String color;
 
 }
