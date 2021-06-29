@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService {
         return INSTANCE.userToUserDto(savedUser);
     }
 
-    //@Override
     public UserDTO updateUser(UserDTO userDTO) {
         Optional<User> userToUpdate = userRepository.findById(userDTO.getId());
         if (userToUpdate.isPresent()) {

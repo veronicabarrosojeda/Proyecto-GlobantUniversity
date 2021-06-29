@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("roles/{role}")
-    ResponseEntity <List<UserDTO>> getByRole(UserRoleEnum role) {
+    ResponseEntity <List<UserDTO>> getByRole(@PathVariable UserRoleEnum role) {
         return new ResponseEntity<> (userService.findByRole(role), HttpStatus.OK);
     }
 
