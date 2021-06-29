@@ -1,6 +1,5 @@
 package com.carDealership.Application.service;
 
-import com.carDealership.Application.dto.UserDTO;
 import com.carDealership.Application.dto.VehicleDTO;
 
 import java.util.List;

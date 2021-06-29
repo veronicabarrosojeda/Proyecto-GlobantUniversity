@@ -1,10 +1,7 @@
 package com.carDealership.Application.service;
 
-import com.carDealership.Application.dto.UserDTO;
 import com.carDealership.Application.dto.VehicleDTO;
-import com.carDealership.Application.entity.User;
 import com.carDealership.Application.entity.Vehicle;
-import com.carDealership.Application.repository.UserRepository;
 import com.carDealership.Application.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,6 +26,6 @@ public class VehicleServiceImpl implements VehicleService {
         if (!CollectionUtils.isEmpty(allVehicles)) {
             return INSTANCE.allVehiclesToDto(allVehicles);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 }
