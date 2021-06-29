@@ -1,6 +1,6 @@
 package com.carDealership.Application.dto;
 
-import com.carDealership.Application.entity.User;
+import com.carDealership.Application.entity.UserRoleEnum;
 import com.carDealership.Application.entity.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,7 @@ import java.util.List;
 public class SaleDTO {
     Long id;
     Date saleDate;
-    User Seller;
-    User Customer;
+    UserRoleEnum Seller;
+    UserRoleEnum Customer;
     List<Vehicle> soldVehicle;
 }
