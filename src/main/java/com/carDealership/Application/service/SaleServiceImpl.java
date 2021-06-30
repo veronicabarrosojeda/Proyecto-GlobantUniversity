@@ -4,9 +4,11 @@ import com.carDealership.Application.dto.SaleDTO;
 import com.carDealership.Application.entity.Sale;
 import com.carDealership.Application.entity.User;
 import com.carDealership.Application.entity.UserRoleEnum;
+import com.carDealership.Application.entity.Vehicle;
 import com.carDealership.Application.exception.NotFoundException;
 import com.carDealership.Application.repository.SaleRepository;
 import com.carDealership.Application.repository.UserRepository;
+import com.carDealership.Application.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -21,11 +23,14 @@ public class SaleServiceImpl implements SaleService {
 
     SaleRepository saleRepository;
     UserRepository userRepository;
+    VehicleRepository vehicleRepository;
 
-    public SaleServiceImpl(SaleRepository saleRepository,UserRepository userRepository) {
+    public SaleServiceImpl(SaleRepository saleRepository, UserRepository userRepository,
+                           VehicleRepository vehicleRepository) {
 
         this.saleRepository = saleRepository;
         this.userRepository = userRepository;
+        this.vehicleRepository = vehicleRepository;
     }
 
     public List<SaleDTO> allSales() {
@@ -47,16 +52,22 @@ public class SaleServiceImpl implements SaleService {
     public SaleDTO newSale(SaleDTO saleDTO) {
         //preguntar y hacer findbyid de los usuarios y sus roles
         Optional<User> optionalSeller =  userRepository.findByIdAndRole(saleDTO.getSellerId(), UserRoleEnum.SELLER);
-        //Optional<Vehicle> optionalVehicle =
-        //LO MISMO PARA EL CLIENTE Y EL VEHICULO
-        if(optionalSeller.isPresent()) { //lo mismo para v
+        Optional<User> optionalCustomer =  userRepository.findByIdAndRole(saleDTO.getCustomerId(), UserRoleEnum.CUSTOMER);
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(saleDTO.getVehicleId());
+
+        if(optionalSeller.isPresent() && optionalVehicle.isPresent() && optionalCustomer.isPresent()) { //lo mismo para v
             User existingSeller = optionalSeller.get();
+            User existingCustomer = optionalCustomer.get();
+            Vehicle existingVehicle = optionalVehicle.get();
             Sale sale = INSTANCE.saleDtoToSale(saleDTO);
-            sale.setSeller(existingSeller); //settear vehicle y customer
+            sale.setSeller(existingSeller);
+            sale.setCustomer(existingCustomer);
+            sale.setSoldVehicle(existingVehicle);
             Sale savedSale = saleRepository.save(sale);
+
             return INSTANCE.saleToSaleDto(savedSale);
         }
-
+        return null;
     }
 
     public SaleDTO updateSale(SaleDTO saleDTO) throws NotFoundException {

@@ -29,7 +29,7 @@ public class VehicleServiceImpl implements VehicleService {
         if (!CollectionUtils.isEmpty(allVehicles)) {
             return INSTANCE.allVehiclesToDto(allVehicles);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override
