@@ -13,7 +13,11 @@ public interface VehicleService {
 
     boolean deleteVehicle(Long idVehicle);
 
-    List<VehicleDTO> getStockByModel(VehicleDTO vehicleDTO);
+    Boolean getStockById(Long idVehicle);
+
+    List<VehicleDTO> findByModel(String model);
+
+    VehicleDTO findById(Long idVehicle);
 
     List<VehicleDTO> allVehicles();
 }

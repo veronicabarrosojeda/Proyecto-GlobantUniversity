@@ -50,12 +50,12 @@ public class SaleServiceImpl implements SaleService {
     }
 
     public SaleDTO newSale(SaleDTO saleDTO) {
-        //preguntar y hacer findbyid de los usuarios y sus roles
         Optional<User> optionalSeller =  userRepository.findByIdAndRole(saleDTO.getSellerId(), UserRoleEnum.SELLER);
         Optional<User> optionalCustomer =  userRepository.findByIdAndRole(saleDTO.getCustomerId(), UserRoleEnum.CUSTOMER);
         Optional<Vehicle> optionalVehicle = vehicleRepository.findById(saleDTO.getVehicleId());
 
-        if(optionalSeller.isPresent() && optionalVehicle.isPresent() && optionalCustomer.isPresent()) { //lo mismo para v
+        if(optionalSeller.isPresent() && optionalVehicle.isPresent() && optionalCustomer.isPresent()
+        && optionalVehicle.get().getStock()==true) {
             User existingSeller = optionalSeller.get();
             User existingCustomer = optionalCustomer.get();
             Vehicle existingVehicle = optionalVehicle.get();

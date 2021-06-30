@@ -1,16 +1,17 @@
 package com.carDealership.Application.service;
 
 
+import com.carDealership.Application.dto.UserDTO;
 import com.carDealership.Application.dto.VehicleDTO;
+import com.carDealership.Application.entity.User;
 import com.carDealership.Application.entity.Vehicle;
 import com.carDealership.Application.exception.NotFoundException;
+import com.carDealership.Application.mapper.UserMapper;
 import com.carDealership.Application.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.carDealership.Application.mapper.VehicleMapper.INSTANCE;
 
@@ -53,9 +54,10 @@ public class VehicleServiceImpl implements VehicleService {
 
     }
 
+    @Override
     public VehicleDTO updateVehicle(VehicleDTO vehicleDTO) {
-        if (vehicleDTO != null) {
-            Vehicle vehicle = vehicleRepository.findById(vehicleDTO.getId()).get();
+        Vehicle vehicle = vehicleRepository.findById(vehicleDTO.getId()).get();
+        if (vehicle != null) {
             if (!vehicleDTO.getMaker().isEmpty())
                 vehicle.setMaker(vehicleDTO.getMaker());
             if (!vehicleDTO.getModel().isEmpty())
@@ -70,16 +72,30 @@ public class VehicleServiceImpl implements VehicleService {
         }
     }
 
-    public List<VehicleDTO> getStockByModel(VehicleDTO vehicleDTO) {
-        List<VehicleDTO> vehiclesDTO = new ArrayList<>();
-        List<Vehicle> vehicles = vehicleRepository.findByModel(vehicleDTO.getModel());
-        for (Vehicle v : vehicles) {
-            if (v.getStock() == true) {
-                vehiclesDTO.add(INSTANCE.vehicleToDtoVehicle(v));
-            }
-        }
-        return vehiclesDTO;
+    @Override
+    public Boolean getStockById(Long idVehicle) {
+        return vehicleRepository.findById(idVehicle).get().getStock();
     }
 
+    public VehicleDTO findById(Long id) {
+        Optional<Vehicle> foundVehicle = vehicleRepository.findById(id);
+        if (foundVehicle.isPresent()) {
+            return INSTANCE.vehicleToDtoVehicle(foundVehicle.get());
+        }
+        throw new NotFoundException(id);
+    }
+
+    @Override
+    public List<VehicleDTO> findByModel(String model) {
+        List<Vehicle> foundVehicles = vehicleRepository.findByModel(model);
+        if (!foundVehicles.isEmpty()) {
+            List<VehicleDTO> vehicleDTOS = new ArrayList<>();
+            for (Vehicle v : foundVehicles) {
+                vehicleDTOS.add(INSTANCE.vehicleToDtoVehicle(v));
+            }
+            return vehicleDTOS;
+        }
+        return null;
+    }
 
 }

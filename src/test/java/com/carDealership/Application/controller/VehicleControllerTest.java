@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,7 @@ public class VehicleControllerTest {
         //Arrange
         Mockito.when(vehicleService.allVehicles()).thenReturn(Collections.singletonList(new VehicleDTO()));
         //Action
-        List<VehicleDTO> expectedResult = vehicleController.allVehicles();
+        ResponseEntity<List<VehicleDTO>> expectedResult = vehicleController.allVehicles();
         //Assert
         assertNotNull(expectedResult);
     }

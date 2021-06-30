@@ -31,24 +31,35 @@ public class VehicleController {
         return new ResponseEntity<>(vehicleService.addVehicle(vehicleDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "stockvehicles")
-    public ResponseEntity<List<VehicleDTO>> getStockVehiclesByModel(@RequestBody VehicleDTO vehicleDTO){
-        return ResponseEntity.ok(vehicleService.getStockByModel(vehicleDTO));
-    }
-
     @GetMapping("/getvehicles")
-    public List<VehicleDTO> allVehicles() {
-        return vehicleService.allVehicles();
+    public ResponseEntity<List<VehicleDTO>> allVehicles() {
+        return new ResponseEntity<>(vehicleService.allVehicles(), HttpStatus.OK);
     }
 
-    @PatchMapping(path = "updatevehicle")
-    public ResponseEntity<VehicleDTO> updateVehicle(@RequestBody VehicleDTO vehicleDTO) {
-        return ok(vehicleService.updateVehicle(vehicleDTO));
+    @GetMapping("/getvehiclesbymodel/{model}")
+    public ResponseEntity<List<VehicleDTO>> findByModel(@PathVariable String model) {
+        return new ResponseEntity<>(vehicleService.findByModel(model), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "deletevehicle")
-    public ResponseEntity<VehicleDTO> deleteVehicle(@PathVariable Long idVehicle) {
-        boolean ok = vehicleService.deleteVehicle(idVehicle);
+    @GetMapping("/{id}")
+    public ResponseEntity<VehicleDTO> oneVehicle(@PathVariable Long id) {
+        return new ResponseEntity<> (vehicleService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/stockbyid/{id}")
+    public ResponseEntity<Boolean> stockById(@PathVariable Long id){
+        return new ResponseEntity<> ( vehicleService.getStockById(id), HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<VehicleDTO> updateVehicle(@RequestBody VehicleDTO vehicleDTO, @PathVariable Long id) {
+        vehicleDTO.setId(id);
+        return new ResponseEntity<>(vehicleService.updateVehicle(vehicleDTO),HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<VehicleDTO> deleteVehicle(@PathVariable Long id) {
+        boolean ok = vehicleService.deleteVehicle(id);
         if (ok) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
