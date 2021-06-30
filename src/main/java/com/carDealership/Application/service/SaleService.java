@@ -1,7 +1,6 @@
 package com.carDealership.Application.service;
 
 import com.carDealership.Application.dto.SaleDTO;
-
 import java.util.List;
 
 public interface SaleService {

@@ -1,12 +1,9 @@
 package com.carDealership.Application.service;
 
 
-import com.carDealership.Application.dto.UserDTO;
 import com.carDealership.Application.dto.VehicleDTO;
-import com.carDealership.Application.entity.User;
 import com.carDealership.Application.entity.Vehicle;
 import com.carDealership.Application.exception.NotFoundException;
-import com.carDealership.Application.mapper.UserMapper;
 import com.carDealership.Application.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -77,6 +74,7 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.findById(idVehicle).get().getStock();
     }
 
+    @Override
     public VehicleDTO findById(Long id) {
         Optional<Vehicle> foundVehicle = vehicleRepository.findById(id);
         if (foundVehicle.isPresent()) {
@@ -95,7 +93,7 @@ public class VehicleServiceImpl implements VehicleService {
             }
             return vehicleDTOS;
         }
-        return null;
+        return Collections.emptyList();
     }
 
 }
