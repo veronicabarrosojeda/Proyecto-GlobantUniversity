@@ -18,4 +18,6 @@ public class Vehicle {
     private Float price;
     private String color;
 
+    @OneToOne
+    private Sale sale;
 }

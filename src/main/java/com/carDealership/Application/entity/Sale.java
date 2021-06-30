@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -14,7 +15,13 @@ public class Sale {
     @Column(unique = true, nullable = false)
     private Long id;
     private Date saleDate;
-    private UserRoleEnum seller;
-    private UserRoleEnum customer;
-   /* private List <Vehicle> soldVehicle;*/
+
+    @ManyToOne
+    private User seller;
+
+    @ManyToOne
+    private User customer;
+
+    @OneToOne
+    private Vehicle soldVehicle;
 }

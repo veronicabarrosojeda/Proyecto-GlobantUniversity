@@ -17,7 +17,7 @@ import java.util.List;
 public class SaleDTO {
     Long id;
     Date saleDate;
-    UserRoleEnum Seller;
-    UserRoleEnum Customer;
-    List<Vehicle> soldVehicle;
+    VehicleDTO soldVehicle;
+    Long sellerId;
+    Long customerId;
 }
