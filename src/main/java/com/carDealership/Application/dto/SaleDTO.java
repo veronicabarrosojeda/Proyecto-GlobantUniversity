@@ -14,7 +14,7 @@ import java.util.Date;
 public class SaleDTO {
     Long id;
     Date saleDate;
-    Long sellerId;
-    Long customerId;
-    Long vehicleId;
+    UserDTO seller;
+    UserDTO customer;
+    VehicleDTO soldVehicle;
 }

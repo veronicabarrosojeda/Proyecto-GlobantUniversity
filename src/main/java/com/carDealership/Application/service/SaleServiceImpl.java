@@ -1,17 +1,22 @@
 package com.carDealership.Application.service;
 
 import com.carDealership.Application.dto.SaleDTO;
+import com.carDealership.Application.dto.UserDTO;
+import com.carDealership.Application.dto.VehicleDTO;
 import com.carDealership.Application.entity.Sale;
 import com.carDealership.Application.entity.User;
 import com.carDealership.Application.entity.UserRoleEnum;
 import com.carDealership.Application.entity.Vehicle;
 import com.carDealership.Application.exception.NotFoundException;
+import com.carDealership.Application.mapper.UserMapper;
+import com.carDealership.Application.mapper.VehicleMapper;
 import com.carDealership.Application.repository.SaleRepository;
 import com.carDealership.Application.repository.UserRepository;
 import com.carDealership.Application.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +41,19 @@ public class SaleServiceImpl implements SaleService {
     public List<SaleDTO> allSales() {
         List<Sale> allSales = saleRepository.findAll();
         if (!CollectionUtils.isEmpty(allSales)) {
-            return INSTANCE.allSalesToDto(allSales());
+            List<SaleDTO> allSalesDTO = new ArrayList<>();
+
+            for (Sale c : allSales){
+                SaleDTO saleDTO = INSTANCE.saleToSaleDto(c);
+                VehicleDTO vehicleDTO = VehicleMapper.INSTANCE.vehicleToDtoVehicle(c.getSoldVehicle());
+                UserDTO sellerDTO = UserMapper.INSTANCE.userToUserDto(c.getSeller());
+                UserDTO customerDTO = UserMapper.INSTANCE.userToUserDto(c.getCustomer());
+                saleDTO.setCustomer(customerDTO);
+                saleDTO.setSeller(sellerDTO);
+                saleDTO.setSoldVehicle(vehicleDTO);
+                allSalesDTO.add(INSTANCE.saleToSaleDto(c));
+            }
+            return allSalesDTO;
         }
         return Collections.emptyList();
     }
@@ -50,9 +67,9 @@ public class SaleServiceImpl implements SaleService {
     }
 
     public SaleDTO newSale(SaleDTO saleDTO) {
-        Optional<User> optionalSeller =  userRepository.findByIdAndRole(saleDTO.getSellerId(), UserRoleEnum.SELLER);
-        Optional<User> optionalCustomer =  userRepository.findByIdAndRole(saleDTO.getCustomerId(), UserRoleEnum.CUSTOMER);
-        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(saleDTO.getVehicleId());
+        Optional<User> optionalSeller =  userRepository.findByIdAndRole(saleDTO.getSeller().getId(), UserRoleEnum.SELLER);
+        Optional<User> optionalCustomer =  userRepository.findByIdAndRole(saleDTO.getCustomer().getId(), UserRoleEnum.CUSTOMER);
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(saleDTO.getSoldVehicle().getId());
 
         if(optionalSeller.isPresent() && optionalVehicle.isPresent() && optionalCustomer.isPresent()
         && optionalVehicle.get().getStock()==true) {

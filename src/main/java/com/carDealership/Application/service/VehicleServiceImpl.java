@@ -2,8 +2,10 @@ package com.carDealership.Application.service;
 
 
 import com.carDealership.Application.dto.VehicleDTO;
+import com.carDealership.Application.entity.User;
 import com.carDealership.Application.entity.Vehicle;
 import com.carDealership.Application.exception.NotFoundException;
+import com.carDealership.Application.mapper.UserMapper;
 import com.carDealership.Application.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -32,12 +34,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDTO addVehicle(VehicleDTO vehicleDTO) {
-        if (vehicleDTO != null) {
             Vehicle vehicle = INSTANCE.vehicleDtoToVehicle(vehicleDTO);
-            vehicleRepository.save(vehicle);
-            return INSTANCE.vehicleToDtoVehicle(vehicle);
-        }
-        return null;
+            Vehicle savedVehicle = vehicleRepository.save(vehicle);
+            return INSTANCE.vehicleToDtoVehicle(savedVehicle);
     }
 
     @Override
@@ -55,15 +54,9 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleDTO updateVehicle(VehicleDTO vehicleDTO) {
         Vehicle vehicle = vehicleRepository.findById(vehicleDTO.getId()).get();
         if (vehicle != null) {
-            if (!vehicleDTO.getMaker().isEmpty())
-                vehicle.setMaker(vehicleDTO.getMaker());
-            if (!vehicleDTO.getModel().isEmpty())
-                vehicle.setModel(vehicleDTO.getModel());
-            if (!vehicleDTO.getPrice().isNaN())
-                vehicle.setPrice(vehicleDTO.getPrice());
-            if (!vehicleDTO.getStock())
-                vehicle.setStock(vehicleDTO.getStock());
-            return INSTANCE.vehicleToDtoVehicle(vehicle);
+            Vehicle updateVehicle = INSTANCE.vehicleDtoToVehicle(vehicleDTO);
+            Vehicle updatedVehicle = vehicleRepository.save(updateVehicle);
+            return INSTANCE.vehicleToDtoVehicle(updatedVehicle);
         } else {
             throw new NotFoundException(vehicleDTO.getId());
         }

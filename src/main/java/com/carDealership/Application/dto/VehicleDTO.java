@@ -15,4 +15,5 @@ public class VehicleDTO {
     String model;
     Boolean stock;
     Float price;
+    String color;
 }
