@@ -55,8 +55,13 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(UserDTO userDTO) {
         Optional<User> userToUpdate = userRepository.findById(userDTO.getId());
         if (userToUpdate.isPresent()) {
-            User updateUser = INSTANCE.userDtoToUser(userDTO);
-            User updatedUser = userRepository.save(updateUser);
+            if(userDTO.getAge()!=0)
+                userToUpdate.get().setAge(userDTO.getAge());
+            if(userDTO.getName()!=null)
+                userToUpdate.get().setName(userDTO.getName());
+            if(userDTO.getRole()!=null)
+                userToUpdate.get().setRole(userDTO.getRole());
+            User updatedUser = userRepository.save(userToUpdate.get());
             return INSTANCE.userToUserDto(updatedUser);
         }
         throw new NotFoundException(userDTO.getId());

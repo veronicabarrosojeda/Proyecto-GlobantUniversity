@@ -48,15 +48,24 @@ public class VehicleServiceImpl implements VehicleService {
         } else {
             throw new NotFoundException(idVehicle);
         }
-
     }
 
     @Override
     public VehicleDTO updateVehicle(VehicleDTO vehicleDTO) {
         Vehicle vehicle = vehicleRepository.findById(vehicleDTO.getId()).get();
         if (vehicle != null) {
-            Vehicle updateVehicle = INSTANCE.vehicleDtoToVehicle(vehicleDTO);
-            Vehicle updatedVehicle = vehicleRepository.save(updateVehicle);
+            if (vehicleDTO.getMaker()!=null)
+                vehicle.setMaker(vehicleDTO.getMaker());
+            if (vehicleDTO.getModel()!=null)
+                vehicle.setModel(vehicleDTO.getModel());
+            if (vehicleDTO.getPrice()!=null )
+                if(vehicleDTO.getPrice().floatValue()!=0)
+                vehicle.setPrice(vehicleDTO.getPrice());
+            if (vehicleDTO.getStock()!=null)
+                vehicle.setStock(vehicleDTO.getStock());
+            if (vehicleDTO.getColor()!=null)
+                vehicle.setColor(vehicleDTO.getColor());
+            Vehicle updatedVehicle = vehicleRepository.save(vehicle);
             return INSTANCE.vehicleToDtoVehicle(updatedVehicle);
         } else {
             throw new NotFoundException(vehicleDTO.getId());

@@ -18,6 +18,6 @@ public class Vehicle {
     private Float price;
     private String color;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Sale sale;
 }

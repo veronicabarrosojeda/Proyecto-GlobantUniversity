@@ -17,8 +17,8 @@ public class User {
     private String name;
     private int age;
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller" , cascade = CascadeType.ALL)
     List<Sale> sales;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
     List<Sale> purchases;
 }
