@@ -8,6 +8,7 @@ import com.carDealership.Application.entity.User;
 import com.carDealership.Application.entity.UserRoleEnum;
 import com.carDealership.Application.entity.Vehicle;
 import com.carDealership.Application.exception.NotFoundException;
+import com.carDealership.Application.mapper.SaleMapper;
 import com.carDealership.Application.mapper.UserMapper;
 import com.carDealership.Application.mapper.VehicleMapper;
 import com.carDealership.Application.repository.SaleRepository;
@@ -61,6 +62,7 @@ public class SaleServiceImpl implements SaleService {
     public SaleDTO findSaleById(Long id) {
         Optional<Sale> foundSale = saleRepository.findById(id);
         if (foundSale.isPresent()) {
+
             return INSTANCE.saleToSaleDto(foundSale.get());
         }
         throw new NotFoundException(id);
@@ -90,9 +92,8 @@ public class SaleServiceImpl implements SaleService {
     public SaleDTO updateSale(SaleDTO saleDTO) throws NotFoundException {
         Optional<Sale> saleToUpdate = saleRepository.findById(saleDTO.getId());
         if (saleToUpdate.isPresent()) {
-            Sale updateSale = INSTANCE.saleDtoToSale(saleDTO);
-            Sale updatedSale = saleRepository.save(updateSale);
-            return INSTANCE.saleToSaleDto(updatedSale);
+            Sale updatedSale = saleRepository.save(saleToUpdate.get());
+            return setUserDTOandVehicleDTOtoSaleDTO(updatedSale);
         }
         throw new NotFoundException(saleDTO.getId());
     }
@@ -104,6 +105,17 @@ public class SaleServiceImpl implements SaleService {
         } catch (Exception error) {
             return false;
         }
+    }
+
+    public SaleDTO setUserDTOandVehicleDTOtoSaleDTO(Sale foundSale){
+        VehicleDTO vehicleDTO = VehicleMapper.INSTANCE.vehicleToDtoVehicle(foundSale.getSoldVehicle());
+        UserDTO userCustomerDTO = UserMapper.INSTANCE.userToUserDto(foundSale.getCustomer());
+        UserDTO userSellerDTO = UserMapper.INSTANCE.userToUserDto(foundSale.getSeller());
+        SaleDTO saleDTO = INSTANCE.saleToSaleDto(foundSale);
+        saleDTO.setSoldVehicle(vehicleDTO);
+        saleDTO.setCustomer(userCustomerDTO);
+        saleDTO.setSeller(userSellerDTO);
+        return saleDTO;
     }
 
 

@@ -36,6 +36,7 @@ public class SaleController {
 
     @PatchMapping("/update/{id}")
     ResponseEntity<SaleDTO> updateUser(@RequestBody SaleDTO saleDTO, @PathVariable Long id) {
+        saleDTO.setId(id);
         return new ResponseEntity<>(this.saleService.updateSale(saleDTO), HttpStatus.CREATED);
     }
 

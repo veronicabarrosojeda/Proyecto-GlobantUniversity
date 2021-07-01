@@ -41,7 +41,8 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public boolean deleteVehicle(Long idVehicle) {
-        if (idVehicle != null) {
+        Optional<Vehicle> vehicle = vehicleRepository.findById(idVehicle);
+        if (vehicle.isPresent()) {
             vehicleRepository.deleteById(idVehicle);
             return true;
         } else {
