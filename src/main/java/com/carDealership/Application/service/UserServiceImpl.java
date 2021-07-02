@@ -55,11 +55,11 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(UserDTO userDTO) {
         Optional<User> userToUpdate = userRepository.findById(userDTO.getId());
         if (userToUpdate.isPresent()) {
-            if(userDTO.getAge()!=0)
+            if (userDTO.getAge() != 0)
                 userToUpdate.get().setAge(userDTO.getAge());
-            if(userDTO.getName()!=null)
+            if (userDTO.getName() != null)
                 userToUpdate.get().setName(userDTO.getName());
-            if(userDTO.getRole()!=null)
+            if (userDTO.getRole() != null)
                 userToUpdate.get().setRole(userDTO.getRole());
             User updatedUser = userRepository.save(userToUpdate.get());
             return INSTANCE.userToUserDto(updatedUser);
@@ -75,4 +75,5 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
 }

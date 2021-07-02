@@ -9,9 +9,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface SaleMapper {
+
     SaleMapper INSTANCE = Mappers.getMapper(SaleMapper.class);
 
     Sale saleDtoToSale(SaleDTO saleDTO);
+
     SaleDTO saleToSaleDto(Sale sale);
-    List<SaleDTO> allSalesToDto(List<SaleDTO> allSales);
+
 }

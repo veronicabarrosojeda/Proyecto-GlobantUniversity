@@ -34,9 +34,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDTO addVehicle(VehicleDTO vehicleDTO) {
-            Vehicle vehicle = INSTANCE.vehicleDtoToVehicle(vehicleDTO);
-            Vehicle savedVehicle = vehicleRepository.save(vehicle);
-            return INSTANCE.vehicleToDtoVehicle(savedVehicle);
+        Vehicle vehicle = INSTANCE.vehicleDtoToVehicle(vehicleDTO);
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+        return INSTANCE.vehicleToDtoVehicle(savedVehicle);
     }
 
     @Override
@@ -52,20 +52,20 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDTO updateVehicle(VehicleDTO vehicleDTO) {
-        Vehicle vehicle = vehicleRepository.findById(vehicleDTO.getId()).get();
-        if (vehicle != null) {
-            if (vehicleDTO.getMaker()!=null)
-                vehicle.setMaker(vehicleDTO.getMaker());
-            if (vehicleDTO.getModel()!=null)
-                vehicle.setModel(vehicleDTO.getModel());
-            if (vehicleDTO.getPrice()!=null )
-                if(vehicleDTO.getPrice().floatValue()!=0)
-                vehicle.setPrice(vehicleDTO.getPrice());
-            if (vehicleDTO.getStock()!=null)
-                vehicle.setStock(vehicleDTO.getStock());
-            if (vehicleDTO.getColor()!=null)
-                vehicle.setColor(vehicleDTO.getColor());
-            Vehicle updatedVehicle = vehicleRepository.save(vehicle);
+        Optional<Vehicle> vehicleToUpdate = vehicleRepository.findById(vehicleDTO.getId());
+        if (vehicleToUpdate.isPresent()) {
+            if (vehicleDTO.getMaker() != null)
+                vehicleToUpdate.get().setMaker(vehicleDTO.getMaker());
+            if (vehicleDTO.getModel() != null)
+                vehicleToUpdate.get().setModel(vehicleDTO.getModel());
+            if (vehicleDTO.getPrice() != null)
+                if (vehicleDTO.getPrice() != 0)
+                    vehicleToUpdate.get().setPrice(vehicleDTO.getPrice());
+            if (vehicleDTO.getStock() != null)
+                vehicleToUpdate.get().setStock(vehicleDTO.getStock());
+            if (vehicleDTO.getColor() != null)
+                vehicleToUpdate.get().setColor(vehicleDTO.getColor());
+            Vehicle updatedVehicle = vehicleRepository.save(vehicleToUpdate.get());
             return INSTANCE.vehicleToDtoVehicle(updatedVehicle);
         } else {
             throw new NotFoundException(vehicleDTO.getId());

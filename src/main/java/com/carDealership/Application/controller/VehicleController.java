@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.ok;
-
 @RestController
 @RequestMapping("/vehicles")
 public class VehicleController {
@@ -38,18 +36,18 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<VehicleDTO> oneVehicle(@PathVariable Long id) {
-        return new ResponseEntity<> (vehicleService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(vehicleService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/stockbyid/{id}")
-    public ResponseEntity<Boolean> stockById(@PathVariable Long id){
-        return new ResponseEntity<> ( vehicleService.getStockById(id), HttpStatus.OK);
+    public ResponseEntity<Boolean> stockById(@PathVariable Long id) {
+        return new ResponseEntity<>(vehicleService.getStockById(id), HttpStatus.OK);
     }
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<VehicleDTO> updateVehicle(@RequestBody VehicleDTO vehicleDTO, @PathVariable Long id) {
         vehicleDTO.setId(id);
-        return new ResponseEntity<>(vehicleService.updateVehicle(vehicleDTO),HttpStatus.CREATED);
+        return new ResponseEntity<>(vehicleService.updateVehicle(vehicleDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")

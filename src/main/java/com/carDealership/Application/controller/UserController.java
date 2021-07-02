@@ -21,29 +21,29 @@ public class UserController {
     }
 
     @GetMapping("/")
-    ResponseEntity <List<UserDTO>> allUsers() {
-        return new ResponseEntity<> (userService.allUsers(), HttpStatus.OK);
+    ResponseEntity<List<UserDTO>> allUsers() {
+        return new ResponseEntity<>(userService.allUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     ResponseEntity<UserDTO> oneUser(@PathVariable Long id) {
-        return new ResponseEntity<> (userService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("roles/{role}")
-    ResponseEntity <List<UserDTO>> getByRole(@PathVariable UserRoleEnum role) {
-        return new ResponseEntity<> (userService.findByRole(role), HttpStatus.OK);
+    ResponseEntity<List<UserDTO>> getByRole(@PathVariable UserRoleEnum role) {
+        return new ResponseEntity<>(userService.findByRole(role), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    ResponseEntity <UserDTO> newUser(@RequestBody UserDTO newUser) {
-        return new ResponseEntity<> (this.userService.newUser(newUser), HttpStatus.CREATED);
+    ResponseEntity<UserDTO> newUser(@RequestBody UserDTO newUser) {
+        return new ResponseEntity<>(this.userService.newUser(newUser), HttpStatus.CREATED);
     }
 
     @PatchMapping("/update/{id}")
-    ResponseEntity <UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+    ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
         userDTO.setId(id);
-        return new ResponseEntity<> (this.userService.updateUser(userDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.userService.updateUser(userDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

@@ -27,7 +27,7 @@ public class VehicleControllerTest {
     private VehicleService vehicleService;
 
     @Test
-    public void shouldReturnValidResponseTest(){
+    public void shouldReturnValidResponseTest() {
         //Arrange
         Mockito.when(vehicleService.allVehicles()).thenReturn(Collections.singletonList(new VehicleDTO()));
         //Action
@@ -35,8 +35,9 @@ public class VehicleControllerTest {
         //Assert
         assertNotNull(expectedResult);
     }
+
     @Test
-    public void shouldThrowsExceptionWhenServiceDownTest(){
+    public void shouldThrowsExceptionWhenServiceDownTest() {
         //Arrange
         Mockito.when(vehicleService.allVehicles()).thenThrow(new ServiceException("Service Down"));
         //assert
