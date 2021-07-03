@@ -5,4 +5,4 @@ Sus entidades son los usuarios, tanto compradores como vendedores, los vehículo
 <br>
 <b>Team:</b> Verónica Barros & Miranda Posse de Uruguay :)<br>
 <br>
-Repository de Miranda: github.com/MagadeOz/BackInTheGame.git<br>
+Repository de Miranda: https://github.com/MagadeOz/BackInTheGame
